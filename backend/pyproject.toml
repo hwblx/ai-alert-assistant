@@ -1,0 +1,33 @@
+[project]
+name = "ai_alert_assistant"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "hwblx", email = "hwblx@tutamail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "fastapi[standard]>=0.143.2",
+    "httpx>=0.28.1",
+    "pydantic-ai>=2.57.0",
+    "python-dotenv>=1.2.4",
+    "sqlalchemy[asyncio]>=2.1.4",
+    "sqlmodel>=0.0.48",
+]
+pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
+
+# [dependency-groups]
+# dev = [
+#     "ruff>=0.17.1",
+# ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

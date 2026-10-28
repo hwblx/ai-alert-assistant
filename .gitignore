@@ -1,0 +1,27 @@
+# Misc
+.aider*
+.doc/
+
+# Secrets
+.env
+settings.py
+
+# Databases
+*.db
+*.sqlite
+
+# Logs
+*.lo
+# Logs
+*.log
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Local webhook captures
+requests/events/*.json
+
+# macOS
+.DS_Store
