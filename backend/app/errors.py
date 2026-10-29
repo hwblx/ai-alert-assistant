@@ -23,10 +23,6 @@ HOOKDECK_MISSING_SIGNATURE = HTTPException(
 )
 
 
-class AgentAnalysisError(Exception):
-    """Raised when agent analysis fails."""
-
-
 class AlertProcessError(Exception):
     """Raised when alert processing fails."""
 

@@ -51,5 +51,3 @@ def get_model():
             f"Model initialization failed: {e}"
         ) from e
 
-
-model = get_model()

@@ -1,17 +1,17 @@
 import logging
 
-import httpx 
+import httpx
 
 from app.database.crud import get_alert_by_id, update_alert
 from app.errors import AlertProcessError
 from app.schemas import AlertStatus, AlertUpdate, AlertResponse
-from app.services.agent import analyze_alert
 from app.services.notification import send_notification
+from app.services.agent import BaseAgent
 
 logger = logging.getLogger(__name__)
 
 
-async def process_alert(alert_id: int, client: httpx.AsyncClient):
+async def process_alert(alert_id: int, agent: BaseAgent, client: httpx.AsyncClient):
     alert = None
 
     try:
@@ -27,7 +27,7 @@ async def process_alert(alert_id: int, client: httpx.AsyncClient):
         update = AlertUpdate(status=AlertStatus.ANALYZING)
         await update_alert(alert_id, update)
 
-        assessment = await analyze_alert(alert.raw_payload)
+        assessment=  await agent.execute(raw_payload=alert.raw_payload)
 
         update = AlertUpdate(
             status=AlertStatus.NOTIFYING,

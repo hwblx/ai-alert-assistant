@@ -7,6 +7,7 @@ import httpx
 from app.settings import settings
 from app.database.session import create_db_and_tables, engine
 from app.api import webhooks
+from app.services.agent import get_agent
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +18,8 @@ async def lifespan(app: FastAPI):
 
     try:
         await create_db_and_tables()
+
+        app.state.ai_agent = get_agent()
 
         app.state.http_client = httpx.AsyncClient(
             timeout=settings.HTTP_TIMEOUT,

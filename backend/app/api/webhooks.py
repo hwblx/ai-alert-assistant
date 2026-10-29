@@ -79,6 +79,7 @@ async def receive_webhook(
         background_tasks.add_task(
             process_alert,
             alert_id=result.alert_id,
+            agent=request.app.state.ai_agent,
             client=request.app.state.http_client
         )
 
