@@ -12,7 +12,7 @@ database_url = settings.DATABASE_URL
 engine = create_async_engine(
     database_url,
     connect_args={"check_same_thread": False},
-    echo=True
+    echo=False
 )
 
 async_session_factory = async_sessionmaker(

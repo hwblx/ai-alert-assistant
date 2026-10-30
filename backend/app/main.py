@@ -9,6 +9,12 @@ from app.database.session import create_db_and_tables, engine
 from app.api import webhooks
 from app.services.agent import get_agent
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)-8s %(name)s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    force=True
+)
 logger = logging.getLogger(__name__)
 
 
@@ -28,11 +34,8 @@ async def lifespan(app: FastAPI):
 
         yield
 
-    except Exception as e:
-        logger.error(
-            msg="Application lifespan error",
-            exc_info=e
-        )
+    except Exception:
+        logger.exception("Application lifespan error")
         raise
 
     finally:

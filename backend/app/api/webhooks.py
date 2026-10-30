@@ -17,7 +17,6 @@ from app.errors import (
     PAYLOAD_VALIDATION_ERROR
 )
 
-logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
 router = APIRouter()
 

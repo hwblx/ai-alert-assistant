@@ -1,17 +1,16 @@
 import json
 import re
 from typing import Any
+import logging
 from abc import ABC, abstractmethod
 
 from pydantic_ai import Agent
-import logging
 
 from app.services.llm import get_model
 from app.schemas import AlertAssessment, SeverityLevel, ConfidenceLevel
 from app.settings import settings
 
 logger = logging.getLogger(__name__)
-logger.setLevel(level=logging.WARNING)
 
 
 class BaseAgent(ABC):
@@ -58,6 +57,8 @@ class SinglePassAgent(DiagnosticAgent):
     output_type = AlertAssessment
 
     async def execute(self, raw_payload: dict[str, Any]) -> AlertAssessment:
+        logger.debug("Executing single-pass diagnostic analysis")
+
         sanitized_payload = _sanitize_raw_payload(raw_payload)
         alert_json = json.dumps(sanitized_payload, indent=2)
 
@@ -73,7 +74,7 @@ class MultiPassAgent(BaseAgent):
         self.summary_agent = SummaryAgent(model)
 
     async def execute(self, raw_payload: dict[str, Any]) -> AlertAssessment:
-        logger.warning("Sequential agent executes ...")
+        logger.debug("Executing multi-pass diagnostic analysis")
 
         sanitized_payload = _sanitize_raw_payload(raw_payload)
         alert_json = json.dumps(sanitized_payload, indent=2)
@@ -112,7 +113,8 @@ class RootCauseAgent(DiagnosticAgent):
     output_type = str
 
     async def execute(self, alert_json: str) -> str:
-        logger.warning("RootCause agent executes ...")
+        logger.debug("Generating root cause hypothesis")
+
         result = await self.agent.run(
             f"Analyze this alert and identify the root cause:\n{alert_json}"
         )
@@ -132,7 +134,7 @@ class ActionsAgent(DiagnosticAgent):
     output_type = str
 
     async def execute(self, trimmed_context: str, root_cause: str) -> list[str]:
-        logger.warning("Actions agent executes ...")
+        logger.debug("Generating recommended mitigation actions")
 
         prompt = (
             f"{trimmed_context}\n\n"
@@ -167,7 +169,7 @@ class ClassificationAgent(DiagnosticAgent):
     output_type = str
 
     async def execute(self, trimmed_context: str, root_cause: str) -> dict[str, Any]:
-        logger.warning("Classification agent executes ...")
+        logger.debug("Classifying incident severity and assessment confidence")
 
         prompt = (
             f"{trimmed_context}\n\n"
@@ -228,7 +230,7 @@ class SummaryAgent(DiagnosticAgent):
         root_cause: str,
         recommended_actions: list[str],
     ) -> str:
-        logger.warning("Summary agent executes ...")
+        logger.debug("Generating sanitized incident summary")
 
         actions_formatted = "\n".join(f"- {action}" for action in recommended_actions)
         prompt = (
