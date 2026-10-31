@@ -5,7 +5,7 @@ A lightweight backend service designed to receive alert webhooks (such as from P
 This repository is a work sample and demonstration project built to explore asynchronous webhook ingestion, structured LLM prompting with validation, and clean service orchestration in Python.
 
 ---
-![Flowchart](backend/.doc/flowchart.png)
+![Flowchart](docs/flowchart.png)
 
 ---
 
@@ -14,8 +14,8 @@ This repository is a work sample and demonstration project built to explore asyn
 AI Alert Assistant decouples webhook ingestion from LLM diagnosis and notification delivery through an event-driven architecture. Hookdeck serves as a bidirectional webhook gateway—buffering inbound alerts from Prometheus Alertmanager and fanning out outbound incident reports to downstream endpoints (such as GitHub Issues and Resend for email delivery).
 
 <p align="center">
-  <a href="backend/.doc/c4-context.png">
-    <img src="backend/.doc/c4-context.png" height="500" alt="C4 Context Diagram" />
+  <a href="docs/c4-context.png">
+    <img src="docs/c4-context.png" height="500" alt="C4 Context Diagram" />
   </a>
   <br />
   <small><em>Click image to zoom</em></small>
@@ -30,8 +30,8 @@ AI Alert Assistant decouples webhook ingestion from LLM diagnosis and notificati
 5. **Sanitization & Outbound Dispatch:** Sensitive infrastructure details (internal IPs, credentials, container IDs) are scrubbed before Notification Dispatcher posts the structured event to Hookdeck for fan-out delivery.
 
 <p align="center">
-  <a href="backend/.doc/c4-component.png">
-    <img src="backend/.doc/c4-component.png" height="500" alt="C4 Component Diagram" />
+  <a href="docs/c4-component.png">
+    <img src="docs/c4-component.png" height="500" alt="C4 Component Diagram" />
   </a>
   <br />
   <small><em>Click image to zoom</em></small>
