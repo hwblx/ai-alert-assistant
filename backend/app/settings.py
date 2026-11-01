@@ -9,10 +9,10 @@ class Settings(BaseSettings):
        env_file=BASE_DIR / ".env",
        extra="ignore"
     )
-    ALERT_DEDUPLICATION_WINDOW_MINUTES: int = 2  # 15
+    ALERT_DEDUPLICATION_WINDOW_MINUTES: int = 15
 
-    DATABASE_URL: str = "sqlite+aiosqlite:///./database.sqlite"  # Development
-    # DATABASE_URL: str = "sqlite+aiosqlite:////app/data/database.sqlite"  # Production/Docker
+    DATABASE_URL: str = "sqlite+aiosqlite:///./alerts.db"  # Development
+    # DATABASE_URL: str = "sqlite+aiosqlite:////app/data/alerts.db"  # Production/Docker
 
     HOOKDECK_API_KEY: str | None = None
     HOOKDECK_API_URL: str | None = None

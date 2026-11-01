@@ -1,8 +1,6 @@
 # AI Alert Assistant
 
-A lightweight backend service designed to receive alert webhooks (such as from Prometheus or Alertmanager routed through Hookdeck), deduplicate incoming incidents, generate structured AI diagnostic summaries, and dispatch enriched incident reports.
-
-This repository is a work sample and demonstration project built to explore asynchronous webhook ingestion, structured LLM prompting with validation, and clean service orchestration in Python.
+A lightweight backend service designed to receive alert webhooks (such as from Prometheus or Alertmanager routed through Hookdeck), deduplicate incoming incidents, generate structured AI diagnostic summaries, and dispatch enriched incident reports. This repository is a demonstration project showcasing asynchronous webhook ingestion, structured LLM prompting with validation, and clean service orchestration in Python.
 
 ---
 ![Flowchart](docs/flowchart.png)
@@ -137,6 +135,7 @@ cp app/.env.example app/.env
 ```
 
 Key environment variables:
+- `ALERT_DEDUPLICATION_WINDOW_MINUTES`: Lookback window for detecting duplicate alerts.
 - `DATABASE_URL`: SQLite connection string (defaults to `sqlite+aiosqlite:///./alerts.db`).
 - `HOOKDECK_SIGNING_SECRET`: Secret key used to verify incoming webhook signatures.
 - `HOOKDECK_API_KEY` & `HOOKDECK_API_URL`: Credentials used by the notification dispatcher to send outbound events.
@@ -178,7 +177,7 @@ uv run pytest
 
 ## Future Ideas & Improvements
 
-- **RAG:** Pull relevant internal runbooks, past incident post-mortems, and service docs into the prompt so the LLM suggests team-specific playbooks instead of generic advice.
-- **Tool Calling & MCP:** Turn the agent from a passive summarizer into an active investigator using Model Context Protocol (MCP) or tool calling to query live Prometheus metrics, and check recent GitHub deployments before hypothesizing root causes.
+- **RAG:** Enrich prompts with internal service documentation to generate context-aware diagnostic suggestions.
+- **Tool Calling & MCP:** Extend the agent beyond summarization by querying live Prometheus metrics and recent GitHub deployments to support root cause analysis.
 - **Task queue:** Swap FastAPI's built-in `BackgroundTasks` for Redis + ARQ so long LLM jobs survive server restarts and failed jobs can retry automatically.
 - **Integrations:** Add webhook parsers for more services (Convoy, Svix etc.)
